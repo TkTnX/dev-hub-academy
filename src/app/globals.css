@@ -6,7 +6,18 @@
   --text-color: #fff;
 }
 
+html,
+body,
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background: rgb(66, 46, 99);
   background: linear-gradient(
     215deg,
@@ -14,8 +25,17 @@ body {
     rgba(38, 50, 92, 1) 50%,
     rgba(58, 106, 150, 1) 87%
   );
-  background-repeat: no-repeat;
   color: var(--text-color);
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+main {
+  flex: 1;
 }
 
 .container {

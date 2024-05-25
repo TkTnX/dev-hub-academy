@@ -6,7 +6,7 @@ import Navbar from "../Header/Navbar";
 const Footer: React.FC = () => {
   return (
     <footer
-      className="backdrop-blur-3xl "
+      className="backdrop-blur-3xl mt-auto"
       style={{ backgroundColor: "#335782" }}
     >
       <div className="container grid justify-center items-center">

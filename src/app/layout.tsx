@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { StoreProvider } from "@/redux/StoreProvider";
 
 const font = Roboto({
   subsets: ["latin"],
@@ -21,11 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={font.className}>
-        <Header />
-        <main className="mt-24">{children}</main>
-        <Footer />
-      </body>
+      <StoreProvider>
+        <body className={font.className}>
+          <Header />
+          <main className="flex-grow mt-24">{children}</main>
+          <Footer />
+        </body>
+      </StoreProvider>
     </html>
   );
 }

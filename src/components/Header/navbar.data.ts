@@ -6,5 +6,9 @@ export const navbarItems = [
     {
         name: "Тесты",
         link: "/tests"
+    },
+    {
+        name: "Угадай слово",
+        link: "/word"
     }
 ]

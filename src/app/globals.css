@@ -6,13 +6,6 @@
   --text-color: #fff;
 }
 
-html,
-body,
-#__next {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
 
 body {
   display: flex;
@@ -26,16 +19,6 @@ body {
     rgba(58, 106, 150, 1) 87%
   );
   color: var(--text-color);
-}
-
-#__next {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-main {
-  flex: 1;
 }
 
 .container {

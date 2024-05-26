@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     >
       <div className="container grid justify-center items-center">
         <Link className="justify-self-center" href="/">
-          <Image src="/logo.svg" width={80} height={80} alt="Логотип" />
+          <Image priority src="/logo.svg" width={80} height={80} alt="Логотип" />
         </Link>
         <Navbar />
       </div>

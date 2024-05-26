@@ -3,15 +3,21 @@ import { TestType } from "@/components/TestsComponent/testType";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export const fetchTests = createAsyncThunk("tests/fetchTests", async () => {
-  try {
-    const { data } = await instance.get("/tests");
+export const fetchTests = createAsyncThunk(
+  "tests/fetchTests",
+  async (category: string) => {
+    const activeCategory = category !== "Все" ? `category=${category}` : "";
+    try {
+      const { data } = await instance.get(
+        `/tests?${activeCategory.toLowerCase()}`
+      );
 
-    return data;
-  } catch (error) {
-    console.log(error);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 interface initialStateInterface {
   tests: {
@@ -44,7 +50,8 @@ const testsSlice = createSlice({
   },
 });
 
-export const testsSelector = (state: RootState) => state.tests.tests.items
+export const statusSelector = (state: RootState) => state.tests.tests.status;
+export const testsSelector = (state: RootState) => state.tests.tests.items;
 
 export const {} = testsSlice.actions;
 

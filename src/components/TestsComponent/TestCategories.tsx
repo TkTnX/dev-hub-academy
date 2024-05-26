@@ -1,11 +1,12 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import { testCategories } from "./testsCategories.data";
 
-const TestCategories: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
+const TestCategories: React.FC<{
+  activeCategory: number;
+  setActiveCategory: (n: number) => void;
+}> = ({ activeCategory, setActiveCategory }) => {
   return (
-    <ul className="flex items-center gap-5 mt-6">
+    <ul className="flex items-center gap-5 mt-6 flex-wrap">
       {testCategories.map((category, index) => (
         <li key={index}>
           <button

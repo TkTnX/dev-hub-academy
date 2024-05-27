@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { initialWords } from "./words.data";
 import { Skeleton, Snackbar } from "@mui/material";
 
@@ -11,12 +11,15 @@ const GuessWord: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [inpVal, setInpVal] = useState("");
   const [helperText, setHelperText] = useState("");
+  const inpRef = useRef(null);
   const scrambleWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
     setCurrentWord(newWord.name);
     setCategory(newWord.category);
 
     const shuffleWord = (word: string) => {
+      inpRef.current.focus();
+
       const array = word.split("");
       for (let i = array.length - 1; i > 0; i--) {
         const index = Math.floor(Math.random() * (i + 1));
@@ -29,6 +32,8 @@ const GuessWord: React.FC = () => {
   };
 
   const checkWord = () => {
+    inpRef.current.focus();
+
     if (inpVal === currentWord) {
       setHelperText("Вы угадали слово!");
       setWords(words.filter((item) => item.name !== currentWord));
@@ -60,10 +65,11 @@ const GuessWord: React.FC = () => {
   const handleShowHint = () => {
     setOpenSnackbar(true);
     setHelperText(`Подсказка: ${currentWord}`);
+    inpRef.current.focus();
   };
 
   return (
-    <div className="z-10 block mx-auto w-full md:w-1/3 overflow-hidden left-1/2 top-1/3 text-black rounded-lg py-3 px-8 bg-white">
+    <div className="z-10 block mx-auto w-full md:w-1/2 overflow-hidden left-1/2 top-1/3 text-black rounded-lg py-3 px-8 bg-white">
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={openSnackbar}
@@ -107,6 +113,8 @@ const GuessWord: React.FC = () => {
             )}
           </p>
           <input
+            ref={inpRef}
+            autoFocus
             value={inpVal}
             onChange={(e) => setInpVal(e.target.value)}
             placeholder="Слово"
@@ -121,19 +129,20 @@ const GuessWord: React.FC = () => {
               Заменить слово
             </button>
             <button
-              onClick={checkWord}
-              type="button"
-              className="border rounded border-green-400 hover:bg-green-400 hover:text-white transition duration-150 px-4 py-1"
+              onClick={handleShowHint}
+              className="rounded border border-black px-4 py-1 hover:bg-black hover:text-white transition-all duration-150"
             >
-              Проверить слово
+              Показать подсказку
             </button>
           </div>
           <button
-            onClick={handleShowHint}
-            className="w-full border border-black px-4 py-1 hover:bg-black hover:text-white transition-all duration-150"
+            onClick={checkWord}
+            type="button"
+            className="w-full border rounded border-green-400 hover:bg-green-400 hover:text-white transition duration-150 px-4 py-1"
           >
-            Показать подсказку
+            Проверить слово
           </button>
+
           {/* {helperText !== "" && <p>{helperText}</p>} */}
         </>
       )}

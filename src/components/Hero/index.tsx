@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
         style={{ lineHeight: 1.5 }}
       >
         - Повторить <span className=" text-blue-200">Frontend</span>?
-        <br /> - Легко!
+        <br /> - <span className="animatedText">Легко!</span>
       </h1>
     </section>
   );

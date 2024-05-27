@@ -7,6 +7,7 @@ const About: React.FC = () => {
       <h2 className="text-center title-2">О сайте</h2>
       <div className="grid text-center lg:text-left lg:flex my-20 gap-10">
         <Image
+          priority
           src="/images/about/img.jpg"
           className="border justify-self-center"
           width={600}

@@ -17,7 +17,7 @@ const Header: React.FC = () => {
             alt="Логотип"
           />
         </Link>
-        <Navbar />
+        <Navbar isNotFooter={true} />
         <UserInfo />
       </div>
     </header>

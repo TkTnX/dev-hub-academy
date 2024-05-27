@@ -5,10 +5,10 @@ import Image from "next/image";
 
 const TestItem: React.FC<TestType> = ({ tests, category }) => {
   return (
-    <ul className="mt-6">
+    <>
       {tests.map(({ title, preview, id }) => (
-        <li
-          className="max-w-80 p-4 bg-white rounded hover:shadow-2xl hover:-translate-y-2 transition duration-150 "
+        <div
+          className="grid items-center h-full max-w-80 p-4 bg-white rounded hover:shadow-2xl hover:-translate-y-2 transition duration-150 "
           key={id}
         >
           <Link href={`/tests/${category}/${id}`}>
@@ -28,9 +28,9 @@ const TestItem: React.FC<TestType> = ({ tests, category }) => {
           >
             Начать тест
           </Link>
-        </li>
+        </div>
       ))}
-    </ul>
+    </>
   );
 };
 

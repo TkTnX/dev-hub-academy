@@ -11,9 +11,15 @@ const Footer: React.FC = () => {
     >
       <div className="container grid justify-center items-center">
         <Link className="justify-self-center" href="/">
-          <Image priority src="/logo.svg" width={80} height={80} alt="Логотип" />
+          <Image
+            priority
+            src="/logo.svg"
+            width={80}
+            height={80}
+            alt="Логотип"
+          />
         </Link>
-        <Navbar />
+        <Navbar isNotFooter={false} />
       </div>
       <div className="text-center mt-4">
         <p>© Dev Hub Academy | Все права защищены</p>

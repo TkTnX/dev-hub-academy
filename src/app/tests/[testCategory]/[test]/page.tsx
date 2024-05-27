@@ -2,7 +2,6 @@
 import instance from "@/axios";
 import TestFinally from "@/components/TestsComponent/TestFinally";
 import { questionInterface } from "@/components/TestsComponent/testType";
-import { statusSelector } from "@/redux/slices/tests";
 import {
   Alert,
   FormControl,
@@ -16,7 +15,7 @@ import {
 } from "@mui/material";
 import { Undo2 } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
 const TestPage = () => {
@@ -29,12 +28,18 @@ const TestPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const { testCategory, test } = useParams();
+  const router = useRouter();
 
   useEffect(() => {
     instance
       .get(`/tests?category=${testCategory}&tests.id=${test}`)
       .then(({ data }) => {
         setDataTest(data[0].tests[0].questions);
+      })
+      .catch((error) => {
+        alert("Не удалось получить данные!");
+        console.log(error);
+        router.push("/");
       })
       .finally(() => setLoading(false));
   }, []);
@@ -69,7 +74,7 @@ const TestPage = () => {
           Так держать!
         </Alert>
       </Snackbar>
-      <div className="absolute z-10 w-full md:w-auto overflow-hidden left-1/2 top-1/2 text-black rounded-lg -translate-x-1/2 -translate-y-1/2 py-3 px-8   bg-white">
+      <div className="z-10 block mx-auto w-full md:w-1/2 overflow-hidden left-1/2 top-1/3 text-black rounded-lg py-3 px-8 bg-white">
         {currentQuestion !== dataTest.length && (
           <Link href="/tests" className="absolute right-4 md:left-4 top-3">
             <Undo2 />
@@ -79,7 +84,9 @@ const TestPage = () => {
           className="h-1 bg-green-600 absolute top-0 left-0 transition duration-300"
           style={{ width: `${currentQuestion * 10}%` }}
         ></div>
-        {currentQuestion === dataTest.length && !isLoading ? (
+        {currentQuestion === dataTest.length &&
+        !isLoading &&
+        dataTest.length !== 0 ? (
           <TestFinally errorsCount={errorsCount} />
         ) : (
           <>

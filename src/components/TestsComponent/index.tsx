@@ -11,7 +11,6 @@ import { AppDispatch } from "@/redux/store";
 import TestItem from "./TestItem";
 import { Skeleton } from "@mui/material";
 import { testCategories } from "./testsCategories.data";
-import { useSearchParams } from "next/navigation";
 const Tests: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const dispatch: AppDispatch = useDispatch();
@@ -29,15 +28,19 @@ const Tests: React.FC = () => {
         setActiveCategory={setActiveCategory}
       />
       <ul className="grid mt-14 grid-cols-2 md:grid-cols-3 justify-between gap-2 md:gap-10">
-        {status === "loading"
-          ? [...new Array(3)].map((_, index) => (
-              <Skeleton key={index} sx={{ width: "100%", height: "600px" }} />
-            ))
-          : testsList.map((category, index) => (
-              <li key={index}>
-                <TestItem {...category} />
-              </li>
-            ))}
+        {status === "loading" ? (
+          [...new Array(3)].map((_, index) => (
+            <Skeleton key={index} sx={{ width: "100%", height: "600px" }} />
+          ))
+        ) : testsList && testsList.length !== 0 ? (
+          testsList.map((category, index) => (
+            <li key={index}>
+              <TestItem {...category} />
+            </li>
+          ))
+        ) : (
+          <p>Не удалось получить данные!</p>
+        )}
       </ul>
     </div>
   );

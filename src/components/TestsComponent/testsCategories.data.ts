@@ -1,1 +1,1 @@
-export const testCategories = ["Все", "HTML", "CSS", "JS"];
+export const testCategories = ["Все", "HTML", "CSS", "JS", "React"];

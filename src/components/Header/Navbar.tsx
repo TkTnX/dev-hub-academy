@@ -1,14 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { navbarItems } from "./navbar.data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import MobileMenu from "../MobileMenu/MobileMenu";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ isNotFooter: boolean }> = ({ isNotFooter = true }) => {
   const pathname = usePathname();
+  const [openMenu, setOpenMenu] = useState(false);
+
+  useEffect(() => {
+    openMenu
+      ? (document.body.style.overflow = "hidden")
+      : (document.body.style.overflow = "visible");
+  }, []);
+
   return (
-    <nav>
-      <ul className="flex gap-3 ">
+    <nav className="-order-2 vsm:order-none">
+      <ul className="hidden vsm:flex gap-3 ">
         {navbarItems.map((item, index) => (
           <li
             key={index}
@@ -20,6 +29,30 @@ const Navbar: React.FC = () => {
           </li>
         ))}
       </ul>
+      {isNotFooter && (
+        <button
+          onClick={() => setOpenMenu(!openMenu)}
+          className="grid relative z-20 items-center vsm:hidden w-8 h-8"
+        >
+          <span
+            className={`bg-white h-1 rounded-lg transition duration-150 ${
+              openMenu && "rotate-45 translate-y-3"
+            }`}
+          ></span>
+          <span
+            className={`bg-white h-1 rounded-lg transition duration-150 ${
+              openMenu && "opacity-0"
+            }`}
+          ></span>
+          <span
+            className={`bg-white h-1 rounded-lg transition duration-150 ${
+              openMenu && "-rotate-45 -translate-y-3"
+            }`}
+          ></span>
+        </button>
+      )}
+
+      {openMenu && isNotFooter && <MobileMenu closeMenu={setOpenMenu} />}
     </nav>
   );
 };

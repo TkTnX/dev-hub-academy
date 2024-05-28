@@ -34,7 +34,7 @@ const TestPage = () => {
   const [isLoading, setLoading] = useState(true);
   const { testCategory, test } = useParams();
   const router = useRouter();
-  const completedTests = useSelector(completedTestsSelector);
+  const [sortedVariants, setSortedVariants] = useState<string[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,6 +77,17 @@ const TestPage = () => {
   ) {
     dispatch(setCompleted(+test));
   }
+
+  function shuffle(array: string[]) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  useEffect(() => {
+    if (dataTest.length && currentQuestion !== dataTest.length) {
+      const array = dataTest[currentQuestion].variants;
+      setSortedVariants(shuffle(array));
+    }
+  }, [dataTest, currentQuestion]);
 
   return (
     <>
@@ -133,16 +144,14 @@ const TestPage = () => {
                         <Skeleton key={index} height={30} width={230} />
                       ))
                     : dataTest.length > 0 &&
-                      dataTest[currentQuestion].variants.map(
-                        (variant, index) => (
-                          <FormControlLabel
-                            value={variant}
-                            control={<Radio />}
-                            key={index}
-                            label={variant}
-                          />
-                        )
-                      )}
+                      sortedVariants.map((variant, index) => (
+                        <FormControlLabel
+                          value={variant}
+                          control={<Radio />}
+                          key={index}
+                          label={variant}
+                        />
+                      ))}
                 </RadioGroup>
                 <FormHelperText>{error && helperText}</FormHelperText>
                 <div className="flex gap-2 items-center justify-between">

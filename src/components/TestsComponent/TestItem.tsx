@@ -8,8 +8,8 @@ import { getCompletedTestLS } from "@/utils/saveCompletedTests";
 
 const TestItem: React.FC<TestType> = ({ tests, category }) => {
   const completedTests = useSelector(completedTestsSelector);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const storedCompletedTests = getCompletedTestLS();
     dispatch(setCompleted(storedCompletedTests));
@@ -27,7 +27,7 @@ const TestItem: React.FC<TestType> = ({ tests, category }) => {
             <p
               className={`${
                 isCompleted ? "bg-green-600" : "bg-red-600"
-              } px-4 py-1 rounded absolute right-4 top-4`}
+              } px-2 md:px-4 py-1 rounded absolute text-sm md:text-base right-4 top-4`}
             >
               {isCompleted ? "Пройден" : "Не пройден"}
             </p>

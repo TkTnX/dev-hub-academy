@@ -106,3 +106,9 @@ body {
     background-position: 100% 50%;
   }
 }
+
+@media (hover: none), (hover: on-demand), (-moz-touch-enabled: 1), (any-pointer:coarse) {
+  header {
+    background-color: #422e63;
+  }
+}

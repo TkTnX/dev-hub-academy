@@ -1,6 +1,7 @@
 "use client";
 import instance from "@/axios";
 import TestFinally from "@/components/TestsComponent/TestFinally";
+import TestLose from "@/components/TestsComponent/TestLose";
 import { questionInterface } from "@/components/TestsComponent/testType";
 import {
   Alert,
@@ -13,7 +14,7 @@ import {
   Skeleton,
   Snackbar,
 } from "@mui/material";
-import { Undo2 } from "lucide-react";
+import { Heart, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -22,6 +23,7 @@ const TestPage = () => {
   const [dataTest, setDataTest] = useState<questionInterface[]>([]);
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
+  const [lifes, setLifes] = useState(5);
   const [errorsCount, setErrorsCount] = useState(0);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [helperText, setHelperText] = useState("");
@@ -56,9 +58,10 @@ const TestPage = () => {
       setCurrentQuestion(currentQuestion + 1);
       setError(false);
     } else {
-      setHelperText("Неверно! Попробуй ещё раз!");
+      setHelperText("Неверно! Вы потеряли одну жизнь :(");
       setError(true);
       setErrorsCount(errorsCount + 1);
+      setLifes(lifes - 1);
     }
   };
 
@@ -74,20 +77,24 @@ const TestPage = () => {
           Так держать!
         </Alert>
       </Snackbar>
-      <div className="z-10 block mx-auto w-full md:w-1/2 overflow-hidden left-1/2 top-1/3 text-black rounded-lg py-3 px-8 bg-white">
+      <div className="relative mb-4 block mx-auto w-full md:w-1/2 overflow-hidden text-black rounded-lg py-3 px-8 bg-white">
         {currentQuestion !== dataTest.length && (
           <Link href="/tests" className="absolute right-4 md:left-4 top-3">
             <Undo2 />
           </Link>
         )}
         <div
-          className="h-1 bg-green-600 absolute top-0 left-0 transition duration-300"
-          style={{ width: `${currentQuestion * 10}%` }}
+          className={`h-1 bg-green-600 absolute top-0 left-0 transition duration-300 ${
+            lifes === 0 && "bg-red-600"
+          }`}
+          style={{ width: `${(currentQuestion / dataTest.length) * 100}%` }}
         ></div>
         {currentQuestion === dataTest.length &&
         !isLoading &&
         dataTest.length !== 0 ? (
           <TestFinally errorsCount={errorsCount} />
+        ) : lifes === 0 ? (
+          <TestLose />
         ) : (
           <>
             <div className="grid  md:flex items-center  justify-between gap-2">
@@ -102,6 +109,10 @@ const TestPage = () => {
                   dataTest.length > 0 && dataTest[currentQuestion].question
                 )}
               </h5>
+            </div>
+            <div className="flex absolute right-4 bottom-4 items-center gap-2">
+              <Heart color="red" fill="red" />
+              <p className="font-bold text-xl">{lifes}</p>
             </div>
             <form onSubmit={handleSubmit}>
               <FormControl error={error}>

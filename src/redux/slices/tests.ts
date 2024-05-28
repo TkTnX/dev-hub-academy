@@ -23,6 +23,7 @@ interface initialStateInterface {
   tests: {
     items: TestType[];
     status: string;
+    completed: boolean;
   };
 }
 
@@ -30,6 +31,7 @@ const initialState: initialStateInterface = {
   tests: {
     items: [],
     status: "loading",
+    completed: false,
   },
 };
 
@@ -52,6 +54,8 @@ const testsSlice = createSlice({
 
 export const statusSelector = (state: RootState) => state.tests.tests.status;
 export const testsSelector = (state: RootState) => state.tests.tests.items;
+export const completedSelector = (state: RootState) =>
+  state.tests.tests.completed;
 
 export const {} = testsSlice.actions;
 

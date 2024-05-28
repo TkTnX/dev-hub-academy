@@ -2,8 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { TestType } from "./testType";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { completedSelector } from "@/redux/slices/tests";
 
 const TestItem: React.FC<TestType> = ({ tests, category }) => {
+  const completed = useSelector(completedSelector);
+
   return (
     <>
       {tests.map(({ title, preview, id }) => (
@@ -11,6 +15,7 @@ const TestItem: React.FC<TestType> = ({ tests, category }) => {
           className="grid items-center h-full max-w-80 p-4 bg-white rounded hover:shadow-2xl hover:-translate-y-2 transition duration-150 "
           key={id}
         >
+          <p className={`${completed ? "bg-green-600" : "bg-red-600"} px-4 py-1 rounded absolute top-4 right-4`}>{completed ? "Пройден" : "Не пройден"}</p>
           <Link href={`/tests/${category}/${id}`}>
             <Image
               priority

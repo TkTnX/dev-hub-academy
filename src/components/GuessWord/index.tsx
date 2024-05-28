@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import { initialWords } from "./words.data";
 import { Skeleton, Snackbar } from "@mui/material";
 
@@ -11,14 +11,14 @@ const GuessWord: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [inpVal, setInpVal] = useState("");
   const [helperText, setHelperText] = useState("");
-  const inpRef = useRef(null);
+  const inpRef = useRef<HTMLInputElement>(null);
   const scrambleWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
     setCurrentWord(newWord.name);
     setCategory(newWord.category);
 
     const shuffleWord = (word: string) => {
-      inpRef.current.focus();
+      inpRef.current && inpRef.current.focus();
 
       const array = word.split("");
       for (let i = array.length - 1; i > 0; i--) {
@@ -32,7 +32,7 @@ const GuessWord: React.FC = () => {
   };
 
   const checkWord = () => {
-    inpRef.current.focus();
+    inpRef.current && inpRef.current.focus();
 
     if (inpVal === currentWord) {
       setHelperText("Вы угадали слово!");
@@ -65,7 +65,7 @@ const GuessWord: React.FC = () => {
   const handleShowHint = () => {
     setOpenSnackbar(true);
     setHelperText(`Подсказка: ${currentWord}`);
-    inpRef.current.focus();
+    inpRef.current && inpRef.current.focus();
   };
 
   return (

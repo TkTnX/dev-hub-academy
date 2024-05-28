@@ -1,7 +1,8 @@
 import instance from "@/axios";
 import { TestType } from "@/components/TestsComponent/testType";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { saveCompletedTestLS } from "@/utils/saveCompletedTests";
 
 export const fetchTests = createAsyncThunk(
   "tests/fetchTests",
@@ -23,7 +24,7 @@ interface initialStateInterface {
   tests: {
     items: TestType[];
     status: string;
-    completed: boolean;
+    completedTests: Record<number, boolean>;
   };
 }
 
@@ -31,14 +32,26 @@ const initialState: initialStateInterface = {
   tests: {
     items: [],
     status: "loading",
-    completed: false,
+    completedTests: {},
   },
 };
 
 const testsSlice = createSlice({
   name: "tests",
   initialState,
-  reducers: {},
+  reducers: {
+    setCompleted: (
+      state,
+      action: PayloadAction<number | Record<number, boolean>>
+    ) => {
+      if (typeof action.payload === "number") {
+        state.tests.completedTests[action.payload] = true;
+      } else {
+        state.tests.completedTests = action.payload;
+      }
+      saveCompletedTestLS(state.tests.completedTests);
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchTests.pending, (state) => {
       (state.tests.items = []), (state.tests.status = "loading");
@@ -54,9 +67,9 @@ const testsSlice = createSlice({
 
 export const statusSelector = (state: RootState) => state.tests.tests.status;
 export const testsSelector = (state: RootState) => state.tests.tests.items;
-export const completedSelector = (state: RootState) =>
-  state.tests.tests.completed;
+export const completedTestsSelector = (state: RootState) =>
+  state.tests.tests.completedTests;
 
-export const {} = testsSlice.actions;
+export const { setCompleted } = testsSlice.actions;
 
 export default testsSlice.reducer;

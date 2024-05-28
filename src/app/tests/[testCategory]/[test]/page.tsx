@@ -3,6 +3,8 @@ import instance from "@/axios";
 import TestFinally from "@/components/TestsComponent/TestFinally";
 import TestLose from "@/components/TestsComponent/TestLose";
 import { questionInterface } from "@/components/TestsComponent/testType";
+import { completedTestsSelector, setCompleted } from "@/redux/slices/tests";
+import { getCompletedTestLS } from "@/utils/saveCompletedTests";
 import {
   Alert,
   FormControl,
@@ -18,6 +20,7 @@ import { Heart, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const TestPage = () => {
   const [dataTest, setDataTest] = useState<questionInterface[]>([]);
@@ -31,6 +34,8 @@ const TestPage = () => {
   const [isLoading, setLoading] = useState(true);
   const { testCategory, test } = useParams();
   const router = useRouter();
+  const completedTests = useSelector(completedTestsSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     instance
@@ -64,6 +69,14 @@ const TestPage = () => {
       setLifes(lifes - 1);
     }
   };
+
+  if (
+    currentQuestion === dataTest.length &&
+    !isLoading &&
+    dataTest.length !== 0
+  ) {
+    dispatch(setCompleted(+test));
+  }
 
   return (
     <>
@@ -110,10 +123,7 @@ const TestPage = () => {
                 )}
               </h5>
             </div>
-            <div className="flex absolute right-4 bottom-4 items-center gap-2">
-              <Heart color="red" fill="red" />
-              <p className="font-bold text-xl">{lifes}</p>
-            </div>
+
             <form onSubmit={handleSubmit}>
               <FormControl error={error}>
                 <FormLabel>Варианты ответов</FormLabel>
@@ -135,12 +145,18 @@ const TestPage = () => {
                       )}
                 </RadioGroup>
                 <FormHelperText>{error && helperText}</FormHelperText>
-                <button
-                  type="submit"
-                  className="mt-4 border border-black rounded-xl py-3 hover:bg-black hover:text-white transition duration-150"
-                >
-                  Проверить ответ
-                </button>
+                <div className="flex gap-2 items-center justify-between">
+                  <button
+                    type="submit"
+                    className="mt-4 grow border border-black rounded-xl py-3 hover:bg-black hover:text-white transition duration-150"
+                  >
+                    Проверить ответ
+                  </button>
+                  <div className="flex  items-center gap-2">
+                    <Heart color="red" fill="red" />
+                    <p className="font-bold text-xl">{lifes}</p>
+                  </div>
+                </div>
               </FormControl>
             </form>
           </>

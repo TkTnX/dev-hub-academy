@@ -103,7 +103,10 @@ const TestPage = () => {
       </Snackbar>
       <div className="relative mb-4 block mx-auto w-full md:w-1/2 overflow-hidden text-black rounded-lg py-3 px-8 bg-white">
         {currentQuestion !== dataTest.length && (
-          <Link href="/tests" className="absolute right-4 md:left-4 top-3">
+          <Link
+            href="/tests"
+            className="absolute max-w-max right-4 md:left-4 top-3"
+          >
             <Undo2 />
           </Link>
         )}
@@ -122,10 +125,12 @@ const TestPage = () => {
         ) : (
           <>
             <div className="grid  md:flex items-center  justify-between gap-2">
-              <p>
+              <div className="flex items-center">
                 {currentQuestion + 1}&nbsp;/&nbsp;
-                <span className="font-bold">{dataTest.length}</span>
-              </p>
+                <p className="font-bold">
+                  {!dataTest.length ? <Skeleton width={20} /> : dataTest.length}
+                </p>
+              </div>
               <h5 className="text-bold text-base sm:text-2xl text-center mb-8">
                 {isLoading ? (
                   <Skeleton width={100} />

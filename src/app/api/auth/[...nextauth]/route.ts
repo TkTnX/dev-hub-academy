@@ -5,12 +5,12 @@ import Google from "next-auth/providers/google";
 const authOptions = {
   providers: [
     Google({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
     }),
     Github({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!,
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET!,
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
 };

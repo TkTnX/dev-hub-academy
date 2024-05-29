@@ -17,17 +17,17 @@ const TestItem: React.FC<TestType> = ({ tests, category }) => {
 
   return (
     <>
-      {tests.map(({ title, preview, id }) => {
+      {tests.map(({ title, preview, id, questions }) => {
         const isCompleted = completedTests[id];
         return (
           <div
-            className="grid items-center h-full max-w-80 relative p-4 bg-white rounded hover:shadow-2xl hover:-translate-y-2 transition duration-150"
+            className="grid text-black items-center h-full max-w-80 relative p-4 bg-white rounded hover:shadow-2xl hover:-translate-y-2 transition duration-150"
             key={id}
           >
             <p
               className={`${
                 isCompleted ? "bg-green-600" : "bg-red-600"
-              } px-2 md:px-4 py-1 rounded absolute text-sm md:text-base right-4 top-4`}
+              } px-2 md:px-4 py-1 rounded absolute text-sm text-white md:text-base right-0 top-0`}
             >
               {isCompleted ? "Пройден" : "Не пройден"}
             </p>
@@ -41,13 +41,17 @@ const TestItem: React.FC<TestType> = ({ tests, category }) => {
                 alt={title}
               />
             </Link>
-            <h4 className="text-black mt-4 font-bold">{title}</h4>
+            <h4 className=" mt-4 font-bold">{title}</h4>
             <Link
               href={`/tests/${category}/${id}`}
-              className="text-black border rounded w-full block text-center border-gray-900 mt-5 hover:bg-black hover:text-white transition duration-150"
+              className=" border rounded w-full block text-center border-gray-900 mt-5 hover:bg-black hover:text-white transition duration-150"
             >
               Начать тест
             </Link>
+            <p className="absolute left-0 top-0 bg-yellow-300 text-xs  md:text-sm px-2 py-1 rounded">
+              {questions.length}{" "}
+              <span className="hidden sm:inline">вопросов</span>
+            </p>
           </div>
         );
       })}

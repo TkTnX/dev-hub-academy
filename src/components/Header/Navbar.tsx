@@ -16,8 +16,10 @@ const Navbar: React.FC<{ isNotFooter: boolean }> = ({ isNotFooter = true }) => {
   }, []);
 
   return (
-    <nav className="-order-2 vsm:order-none">
-      <ul className="hidden vsm:flex gap-3 ">
+    <nav
+      className={`${!isNotFooter ? "order-none" : "-order-2"} vsm:order-none`}
+    >
+      <ul className={`${!isNotFooter ? "flex" : "hidden"} vsm:flex gap-3`}>
         {navbarItems.map((item, index) => (
           <li
             key={index}

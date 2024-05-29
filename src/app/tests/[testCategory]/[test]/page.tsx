@@ -159,7 +159,7 @@ const TestPage = () => {
                       ))}
                 </RadioGroup>
                 <FormHelperText>{error && helperText}</FormHelperText>
-                <div className="flex gap-2 items-center justify-between">
+                <div className="flex  gap-2 items-center justify-between">
                   <button
                     type="submit"
                     className="mt-4 grow border border-black rounded-xl py-3 hover:bg-black hover:text-white transition duration-150"

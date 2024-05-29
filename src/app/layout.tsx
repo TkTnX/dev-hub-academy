@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { StoreProvider } from "@/redux/StoreProvider";
+import { NextAuthProvider } from "@/Providers/NextAuthProvider";
 
 const font = Roboto({
   subsets: ["latin"],
@@ -23,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <StoreProvider>
-        <body className={font.className}>
-          <Header />
-          <main className="flex-grow mt-24">{children}</main>
-          <Footer />
-        </body>
+        <NextAuthProvider>
+          <body className={font.className}>
+            <Header />
+            <main className="flex-grow mt-24">{children}</main>
+            <Footer />
+          </body>
+        </NextAuthProvider>
       </StoreProvider>
     </html>
   );
